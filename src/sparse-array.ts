@@ -1,31 +1,41 @@
 export class SparseArray<T> implements Iterable<T | undefined> {
-	private _arr: (T | undefined)[] = [];
+  private _arr: (T | undefined)[] = [];
 
-	push(...items: (T | undefined)[]): number {
-		return this._arr.push(...items);
-	}
+  constructor(initialValues?: (T | undefined)[]) {
+    if (initialValues) {
+      this._arr = initialValues;
+    }
+  }
 
-	set(index: number, value: T | undefined): void {
-		this._arr[index] = value;
-	}
+  push(...items: (T | undefined)[]): number {
+    return this._arr.push(...items);
+  }
 
-	get(index: number): T | undefined {
-		return this._arr[index];
-	}
+  set(index: number, value: T | undefined): void {
+    this._arr[index] = value;
+  }
 
-	get length(): number {
-		return this._arr.length;
-	}
+  get(index: number): T | undefined {
+    return this._arr[index];
+  }
 
-	forEach(cb: (value: T | undefined, index: number, array: (T | undefined)[]) => void): void {
-		this._arr.forEach(cb);
-	}
+  get length(): number {
+    return this._arr.length;
+  }
 
-	map<U>(cb: (value: T | undefined, index: number, array: (T | undefined)[]) => U): U[] {
-		return this._arr.map(cb);
-	}
+  forEach(
+    cb: (value: T | undefined, index: number, array: (T | undefined)[]) => void,
+  ): void {
+    this._arr.forEach(cb);
+  }
 
-	[Symbol.iterator](): Iterator<T | undefined> {
-		return this._arr[Symbol.iterator]();
-	}
+  map<U>(
+    cb: (value: T | undefined, index: number, array: (T | undefined)[]) => U,
+  ): U[] {
+    return this._arr.map(cb);
+  }
+
+  [Symbol.iterator](): Iterator<T | undefined> {
+    return this._arr[Symbol.iterator]();
+  }
 }

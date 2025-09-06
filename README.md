@@ -38,9 +38,9 @@ npm install array-ts
 ```typescript
 import { SparseArray, DenseArray } from "array-ts";
 
-const sparseArray = new SparseArray<number>();
+const sparseArray = new SparseArray<number>([1, undefined, 3]);
 sparseArray.push(1);
-sparseArray.set(3, 3); // leave a hole at index 2
+sparseArray.set(8, 777); // add 777 at index 8, leaving holes
 for (const arrayElement of sparseArray) {
   // type = number | undefined; as expected
   type numberOrUndefined = typeof arrayElement;
