@@ -26,4 +26,63 @@ export class DenseArray<T> implements Iterable<T> {
   [Symbol.iterator](): Iterator<T> {
     return this._arr[Symbol.iterator]();
   }
+
+  toArray(): T[] {
+    return [...this._arr];
+  }
+
+  filter(
+    predicate: (value: T, index: number, array: T[]) => boolean,
+  ): DenseArray<T> {
+    const filtered = new DenseArray<T>();
+    this._arr.forEach((value, index) => {
+      if (predicate(value, index, this._arr)) {
+        filtered.push(value);
+      }
+    });
+    return filtered;
+  }
+
+  find(
+    predicate: (value: T, index: number, array: T[]) => boolean,
+  ): T | undefined {
+    return this._arr.find(predicate);
+  }
+
+  findIndex(
+    predicate: (value: T, index: number, array: T[]) => boolean,
+  ): number {
+    return this._arr.findIndex(predicate);
+  }
+
+  includes(searchElement: T): boolean {
+    return this._arr.includes(searchElement);
+  }
+
+  indexOf(searchElement: T, fromIndex?: number): number {
+    if (fromIndex !== undefined) {
+      return this._arr.indexOf(searchElement, fromIndex);
+    }
+    return this._arr.indexOf(searchElement);
+  }
+
+  lastIndexOf(searchElement: T, fromIndex?: number): number {
+    if (fromIndex !== undefined) {
+      return this._arr.lastIndexOf(searchElement, fromIndex);
+    }
+    return this._arr.lastIndexOf(searchElement);
+  }
+
+  slice(start?: number, end?: number): DenseArray<T> {
+    const sliced = new DenseArray<T>();
+    const slicedArray = this._arr.slice(start, end);
+    slicedArray.forEach((item) => sliced.push(item));
+    return sliced;
+  }
+
+  static from<T>(arrayLike: T[]): DenseArray<T> {
+    const dense = new DenseArray<T>();
+    arrayLike.forEach((item) => dense.push(item));
+    return dense;
+  }
 }
