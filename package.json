@@ -8,11 +8,17 @@
     "email": "maxim@mazurok.com",
     "url": "https://maxim.mazurok.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maxim-Mazurok/array-ts.git"
+  },
+  "homepage": "https://github.com/Maxim-Mazurok/array-ts#readme",
   "type": "module",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "pretest-types": "rimraf types && npm run build",
+    "prepare": "rimraf types && npm run build",
+    "pretest-types": "npm run prepare",
     "test-types": "tsd --files **/*.test-d.ts",
     "build": "tsc",
     "test": "npm run test-types"
