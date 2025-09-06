@@ -115,4 +115,75 @@ export class SparseArray<T> implements Iterable<T | undefined> {
   static from<T>(arrayLike: (T | undefined)[]): SparseArray<T> {
     return new SparseArray<T>(arrayLike);
   }
+
+  join(separator?: string): string {
+    return this._arr.join(separator);
+  }
+
+  reverse(): SparseArray<T> {
+    this._arr.reverse();
+    return this;
+  }
+
+  sort(
+    compareFn?: (a: T | undefined, b: T | undefined) => number,
+  ): SparseArray<T> {
+    this._arr.sort(compareFn);
+    return this;
+  }
+
+  reduce<U>(
+    callback: (
+      accumulator: U,
+      currentValue: T | undefined,
+      currentIndex: number,
+      array: (T | undefined)[],
+    ) => U,
+    initialValue: U,
+  ): U {
+    return this._arr.reduce(callback, initialValue);
+  }
+
+  reduceRight<U>(
+    callback: (
+      accumulator: U,
+      currentValue: T | undefined,
+      currentIndex: number,
+      array: (T | undefined)[],
+    ) => U,
+    initialValue: U,
+  ): U {
+    return this._arr.reduceRight(callback, initialValue);
+  }
+
+  some(
+    predicate: (
+      value: T | undefined,
+      index: number,
+      array: (T | undefined)[],
+    ) => boolean,
+  ): boolean {
+    return this._arr.some(predicate);
+  }
+
+  every(
+    predicate: (
+      value: T | undefined,
+      index: number,
+      array: (T | undefined)[],
+    ) => boolean,
+  ): boolean {
+    return this._arr.every(predicate);
+  }
+
+  concat(...arrays: SparseArray<T>[]): SparseArray<T> {
+    const result = new SparseArray<T>();
+    // Add current array elements
+    this._arr.forEach((item) => result.push(item));
+    // Add elements from other SparseArrays
+    arrays.forEach((arr) => {
+      arr.forEach((item) => result.push(item));
+    });
+    return result;
+  }
 }

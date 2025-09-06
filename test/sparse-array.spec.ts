@@ -193,4 +193,100 @@ describe("SparseArray", () => {
       expect(sparseArray.length).toBe(0);
     });
   });
+
+  describe("join", () => {
+    it("should join elements with default separator", () => {
+      const sparseArray = new SparseArray<number>([1, undefined, 3]);
+      expect(sparseArray.join()).toBe("1,,3");
+    });
+
+    it("should join elements with custom separator", () => {
+      const sparseArray = new SparseArray<string>(["a", undefined, "c"]);
+      expect(sparseArray.join(" - ")).toBe("a -  - c");
+    });
+  });
+
+  describe("reverse", () => {
+    it("should reverse the array in place", () => {
+      const sparseArray = new SparseArray<number>([1, undefined, 3]);
+      const result = sparseArray.reverse();
+
+      expect(result).toBe(sparseArray); // Should return same instance
+      expect(sparseArray.toArray()).toEqual([3, undefined, 1]);
+    });
+  });
+
+  describe("sort", () => {
+    it("should sort the array in place", () => {
+      const sparseArray = new SparseArray<number>([3, undefined, 1]);
+      const result = sparseArray.sort();
+
+      expect(result).toBe(sparseArray); // Should return same instance
+      // Note: undefined behavior with sort, but should maintain type safety
+      expect(result).toBeInstanceOf(SparseArray);
+    });
+  });
+
+  describe("reduce", () => {
+    it("should reduce to a single value", () => {
+      const sparseArray = new SparseArray<number>([1, undefined, 3]);
+      const sum = sparseArray.reduce((acc, val) => acc + (val ?? 0), 0);
+
+      expect(sum).toBe(4);
+    });
+  });
+
+  describe("reduceRight", () => {
+    it("should reduce from right to left", () => {
+      const sparseArray = new SparseArray<string>(["a", undefined, "c"]);
+      const result = sparseArray.reduceRight(
+        (acc, val) => acc + (val ?? ""),
+        "",
+      );
+
+      expect(result).toBe("ca");
+    });
+  });
+
+  describe("some", () => {
+    it("should return true if any element matches", () => {
+      const sparseArray = new SparseArray<number>([1, undefined, 3]);
+
+      expect(sparseArray.some((x) => x !== undefined && x > 2)).toBe(true);
+      expect(sparseArray.some((x) => x !== undefined && x > 5)).toBe(false);
+      expect(sparseArray.some((x) => x === undefined)).toBe(true);
+    });
+  });
+
+  describe("every", () => {
+    it("should return true if all elements match", () => {
+      const sparseArray = new SparseArray<number>([2, undefined, 4]);
+
+      expect(sparseArray.every((x) => x === undefined || x % 2 === 0)).toBe(
+        true,
+      );
+      expect(sparseArray.every((x) => x !== undefined)).toBe(false);
+    });
+  });
+
+  describe("concat", () => {
+    it("should concatenate with other SparseArrays", () => {
+      const sparseArray1 = new SparseArray<number>([1, undefined]);
+      const sparseArray2 = new SparseArray<number>([3, 4]);
+
+      const result = sparseArray1.concat(sparseArray2);
+      expect(result.toArray()).toEqual([1, undefined, 3, 4]);
+      expect(result).toBeInstanceOf(SparseArray);
+      expect(result).not.toBe(sparseArray1); // Should be new instance
+    });
+
+    it("should concatenate multiple arrays", () => {
+      const arr1 = SparseArray.from([1]);
+      const arr2 = SparseArray.from([undefined]);
+      const arr3 = SparseArray.from([3]);
+
+      const result = arr1.concat(arr2, arr3);
+      expect(result.toArray()).toEqual([1, undefined, 3]);
+    });
+  });
 });

@@ -85,4 +85,61 @@ export class DenseArray<T> implements Iterable<T> {
     arrayLike.forEach((item) => dense.push(item));
     return dense;
   }
+
+  join(separator?: string): string {
+    return this._arr.join(separator);
+  }
+
+  reverse(): DenseArray<T> {
+    this._arr.reverse();
+    return this;
+  }
+
+  sort(compareFn?: (a: T, b: T) => number): DenseArray<T> {
+    this._arr.sort(compareFn);
+    return this;
+  }
+
+  reduce<U>(
+    callback: (
+      accumulator: U,
+      currentValue: T,
+      currentIndex: number,
+      array: T[],
+    ) => U,
+    initialValue: U,
+  ): U {
+    return this._arr.reduce(callback, initialValue);
+  }
+
+  reduceRight<U>(
+    callback: (
+      accumulator: U,
+      currentValue: T,
+      currentIndex: number,
+      array: T[],
+    ) => U,
+    initialValue: U,
+  ): U {
+    return this._arr.reduceRight(callback, initialValue);
+  }
+
+  some(predicate: (value: T, index: number, array: T[]) => boolean): boolean {
+    return this._arr.some(predicate);
+  }
+
+  every(predicate: (value: T, index: number, array: T[]) => boolean): boolean {
+    return this._arr.every(predicate);
+  }
+
+  concat(...arrays: DenseArray<T>[]): DenseArray<T> {
+    const result = new DenseArray<T>();
+    // Add current array elements
+    this._arr.forEach((item) => result.push(item));
+    // Add elements from other DenseArrays
+    arrays.forEach((arr) => {
+      arr.forEach((item) => result.push(item));
+    });
+    return result;
+  }
 }

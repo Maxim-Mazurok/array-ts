@@ -124,3 +124,47 @@ expectType<DenseArray<number>>(new DenseArray() as AsDenseArray<number[]>);
 expectType<SparseArray<number>>(
   new SparseArray() as AsSparseArray<(number | undefined)[]>,
 );
+
+// New method return types
+const denseJoined = denseArray1.join();
+expectType<string>(denseJoined);
+
+const denseReversed = denseArray1.reverse();
+expectType<DenseArray<number>>(denseReversed);
+
+const denseSorted = denseArray1.sort();
+expectType<DenseArray<number>>(denseSorted);
+
+const denseReduced = denseArray1.reduce((acc, val) => acc + val, 0);
+expectType<number>(denseReduced);
+
+const denseSome = denseArray1.some((x) => x > 0);
+expectType<boolean>(denseSome);
+
+const denseEvery = denseArray1.every((x) => x > 0);
+expectType<boolean>(denseEvery);
+
+const denseConcat = denseArray1.concat(new DenseArray<number>());
+expectType<DenseArray<number>>(denseConcat);
+
+// Sparse array method types
+const sparseJoined = sparseArray1.join();
+expectType<string>(sparseJoined);
+
+const sparseReversed = sparseArray1.reverse();
+expectType<SparseArray<number>>(sparseReversed);
+
+const sparseSorted = sparseArray1.sort();
+expectType<SparseArray<number>>(sparseSorted);
+
+const sparseReduced = sparseArray1.reduce((acc, val) => acc + (val ?? 0), 0);
+expectType<number>(sparseReduced);
+
+const sparseSome = sparseArray1.some((x) => x === undefined);
+expectType<boolean>(sparseSome);
+
+const sparseEvery = sparseArray1.every((x) => x !== undefined);
+expectType<boolean>(sparseEvery);
+
+const sparseConcat = sparseArray1.concat(new SparseArray<number>());
+expectType<SparseArray<number>>(sparseConcat);

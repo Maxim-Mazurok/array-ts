@@ -201,4 +201,134 @@ describe("DenseArray", () => {
       expect(denseArray.length).toBe(0);
     });
   });
+
+  describe("join", () => {
+    it("should join elements with default separator", () => {
+      const denseArray = new DenseArray<number>();
+      denseArray.push(1);
+      denseArray.push(2);
+      denseArray.push(3);
+
+      expect(denseArray.join()).toBe("1,2,3");
+    });
+
+    it("should join elements with custom separator", () => {
+      const denseArray = new DenseArray<string>();
+      denseArray.push("a");
+      denseArray.push("b");
+      denseArray.push("c");
+
+      expect(denseArray.join(" - ")).toBe("a - b - c");
+    });
+  });
+
+  describe("reverse", () => {
+    it("should reverse the array in place", () => {
+      const denseArray = new DenseArray<number>();
+      denseArray.push(1);
+      denseArray.push(2);
+      denseArray.push(3);
+
+      const result = denseArray.reverse();
+      expect(result).toBe(denseArray); // Should return same instance
+      expect(denseArray.toArray()).toEqual([3, 2, 1]);
+    });
+  });
+
+  describe("sort", () => {
+    it("should sort the array in place", () => {
+      const denseArray = new DenseArray<number>();
+      denseArray.push(3);
+      denseArray.push(1);
+      denseArray.push(2);
+
+      const result = denseArray.sort();
+      expect(result).toBe(denseArray); // Should return same instance
+      expect(denseArray.toArray()).toEqual([1, 2, 3]);
+    });
+
+    it("should sort with custom compareFn", () => {
+      const denseArray = new DenseArray<number>();
+      denseArray.push(1);
+      denseArray.push(2);
+      denseArray.push(3);
+
+      denseArray.sort((a, b) => b - a); // Descending
+      expect(denseArray.toArray()).toEqual([3, 2, 1]);
+    });
+  });
+
+  describe("reduce", () => {
+    it("should reduce to a single value", () => {
+      const denseArray = new DenseArray<number>();
+      denseArray.push(1);
+      denseArray.push(2);
+      denseArray.push(3);
+
+      const sum = denseArray.reduce((acc, val) => acc + val, 0);
+      expect(sum).toBe(6);
+    });
+  });
+
+  describe("reduceRight", () => {
+    it("should reduce from right to left", () => {
+      const denseArray = new DenseArray<string>();
+      denseArray.push("a");
+      denseArray.push("b");
+      denseArray.push("c");
+
+      const result = denseArray.reduceRight((acc, val) => acc + val, "");
+      expect(result).toBe("cba");
+    });
+  });
+
+  describe("some", () => {
+    it("should return true if any element matches", () => {
+      const denseArray = new DenseArray<number>();
+      denseArray.push(1);
+      denseArray.push(2);
+      denseArray.push(3);
+
+      expect(denseArray.some((x) => x > 2)).toBe(true);
+      expect(denseArray.some((x) => x > 5)).toBe(false);
+    });
+  });
+
+  describe("every", () => {
+    it("should return true if all elements match", () => {
+      const denseArray = new DenseArray<number>();
+      denseArray.push(2);
+      denseArray.push(4);
+      denseArray.push(6);
+
+      expect(denseArray.every((x) => x % 2 === 0)).toBe(true);
+      expect(denseArray.every((x) => x > 3)).toBe(false);
+    });
+  });
+
+  describe("concat", () => {
+    it("should concatenate with other DenseArrays", () => {
+      const denseArray1 = new DenseArray<number>();
+      denseArray1.push(1);
+      denseArray1.push(2);
+
+      const denseArray2 = new DenseArray<number>();
+      denseArray2.push(3);
+      denseArray2.push(4);
+
+      const result = denseArray1.concat(denseArray2);
+      expect(result.toArray()).toEqual([1, 2, 3, 4]);
+      expect(result).toBeInstanceOf(DenseArray);
+      expect(result).not.toBe(denseArray1); // Should be new instance
+    });
+
+    it("should concatenate multiple arrays", () => {
+      const arr1 = DenseArray.from([1]);
+      const arr2 = DenseArray.from([2]);
+      const arr3 = DenseArray.from([3]);
+
+      const result = arr1.concat(arr2, arr3);
+      expect(result.toArray()).toEqual([1, 2, 3]);
+    });
+  });
 });
