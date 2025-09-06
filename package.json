@@ -1,0 +1,19 @@
+{
+  "name": "array-ts",
+  "version": "0.0.1",
+  "description": "Type-safe array implementation for TypeScript",
+  "license": "MIT",
+  "author": {
+    "name": "Maxim Mazurok",
+    "email": "maxim@mazurok.com",
+    "url": "https://maxim.mazurok.com"
+  },
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "typescript": "^5.9.2"
+  }
+}
