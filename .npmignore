@@ -1,0 +1,10 @@
+
+# Ignore everything by default
+/*
+
+# Unignore only what should be published
+!dist/
+!types/
+!README.md
+!LICENSE
+!package.json
