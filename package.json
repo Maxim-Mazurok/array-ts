@@ -1,6 +1,6 @@
 {
   "name": "array-ts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Type-safe array implementation for TypeScript",
   "license": "MIT",
   "author": {
