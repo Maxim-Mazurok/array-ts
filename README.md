@@ -1,12 +1,12 @@
 # Array-TS
 
-Type-safe array implementation for TypeScript.
+Type-first dense vs sparse array abstractions for TypeScript.
 
-The main goal is to differentiate between sparse and dense arrays, so you know when to expect `undefined`, and when you don't have to check for them.
+Goal: Let the type system tell you when `undefined` is possible. No reliance on runtime hole or `undefined` detection for correctness; correctness is encoded in the APIs you can call.
 
 ## The Problem
 
-TS doesn't differentiate between sparse and dense arrays. This can lead to unexpected `undefined` values in arrays that are expected to be dense (i.e., without holes).
+TypeScript's native `Array<T>` (or `T[]`) does not distinguish between a logically dense sequence and a sparse structure with holes. That means both indexed access and iteration claim `T` even when runtime values are missing (`T | undefined` is possible in reality).
 
 ```typescript
 function getArrayWithHoles(): number[] {

@@ -1,13 +1,10 @@
 export class DenseArray<T> implements Iterable<T> {
   private _arr: T[] = [];
 
-  push(...items: T[]): number {
-    for (const item of items) {
-      if (typeof item === "undefined") {
-        throw new Error("DenseArray: Cannot push undefined.");
-      }
-    }
-    return this._arr.push(...items);
+  push(item: T): number {
+    // NOTE: Can't support multiple items at once because that would require accepting arrays, which might have holes.
+    // To provide compile-time safety against holes, we can't use runtime checks.
+    return this._arr.push(item);
   }
 
   get(index: number): T | undefined {

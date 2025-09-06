@@ -17,13 +17,14 @@
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "prepare": "rimraf types && npm run build",
+    "prepare": "npm run build",
     "pretest-types": "npm run prepare",
     "test-types": "tsd --files **/*.test-d.ts",
+    "prebuild": "rimraf dist types",
     "build": "tsc",
     "check-format": "prettier --check .",
     "format": "prettier --write .",
-    "test": "npm run check-format && npm run test-types"
+    "test": "npm run check-format && npm run test-types && vitest --run"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
