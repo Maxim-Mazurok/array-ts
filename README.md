@@ -6,6 +6,8 @@ The main goal is to differentiate between sparse and dense arrays, so you know w
 
 ## The Problem
 
+TS doesn't differentiate between sparse and dense arrays. This can lead to unexpected `undefined` values in arrays that are expected to be dense (i.e., without holes).
+
 ```typescript
 function getArrayWithHoles(): number[] {
   const myArray: number[] = [];
@@ -15,7 +17,7 @@ function getArrayWithHoles(): number[] {
 
 const myArray = getArrayWithHoles();
 for (const arrayElement of myArray) {
-  // type = number; but in reality it can be undefined!
+  // type = number; but in reality it can be undefined!!!
   type justNumber = typeof arrayElement;
 
   console.log(arrayElement);
@@ -34,19 +36,22 @@ npm install array-ts
 ## Usage
 
 ```typescript
-import { ArrayTS, SparseArray, DenseArray } from "array-ts";
-
-const array = new ArrayTS<number>();
-array.push(1);
-array.push(2);
-array.push(3);
+import { SparseArray, DenseArray } from "array-ts";
 
 const sparseArray = new SparseArray<number>();
-sparseArray[0] = 1;
-sparseArray[100] = 2;
+sparseArray.push(1);
+sparseArray.set(3, 3); // leave a hole at index 2
+for (const arrayElement of sparseArray) {
+  // type = number | undefined; as expected
+  type numberOrUndefined = typeof arrayElement;
+}
 
 const denseArray = new DenseArray<number>();
 denseArray.push(1);
 denseArray.push(2);
-denseArray.push(3);
+denseArray.push(3); // no holes allowed
+for (const arrayElement of denseArray) {
+  // type = number; as expected
+  type justNumber = typeof arrayElement;
+}
 ```
