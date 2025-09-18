@@ -196,6 +196,8 @@ describe("SparseArray", () => {
     });
 
     it("should iterate over sparse array with holes (skipping empty slots)", () => {
+      // > callbackFn is invoked only for array indexes which have assigned values. It is not invoked for empty slots in sparse arrays. (c) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#:~:text=callbackFn%20is%20invoked%20only%20for%20array%20indexes%20which%20have%20assigned%20values.%20It%20is%20not%20invoked%20for%20empty%20slots%20in%20sparse%20arrays.
+
       const sparseArray = new SparseArray<number>();
       sparseArray.set(0, 1);
       sparseArray.set(3, 4);
@@ -243,7 +245,11 @@ describe("SparseArray", () => {
 
     it("should handle empty array", () => {
       const sparseArray = new SparseArray<number>();
-      const result = sparseArray.map((value) => value * 2);
+      const result = sparseArray.map(
+        (value) =>
+          // @ts-expect-error value is never defined in an empty array
+          value * 2,
+      );
 
       expect(result).toEqual([]);
     });
@@ -262,6 +268,7 @@ describe("SparseArray", () => {
       expect(result[0]).toBe(20);
       expect(result[1]).toBeUndefined(); // accessing empty slot returns undefined
       expect(result[2]).toBe(60);
+      expect(result.find((v) => v === "hole")).toBeUndefined();
       // The result array has the same structure: [20, <empty>, 60]
     });
 
